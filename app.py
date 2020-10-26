@@ -29,7 +29,7 @@ def visa():
         "description": ""
 
         }
-    elif request.json['request']['command'].lower() == 'карусель':
+    elif request.json['request']['command'].lower() == 'карусель' or request.json['request']['command'].lower() == 'картинки' or request.json['request']['command'].lower() == 'много картинок':
         card = {
         "type": 'ItemsList',
         "items": [
@@ -125,16 +125,18 @@ def visa():
                 "title": "Лихтенштейн"
             }
         ]
+    elif request.json['request']['command'] == 'Австрия':
+        text = "В Австрию нужна шенгенская виза."
     else:
         text = "не понимаю"
 
     response = {
         "version": request.json['version'],
         "session": request.json['session'],
-        'response':{
+        'response': {
             "end_session":False,
-            "text":text,
-            "card":card,
+            "text": text,
+            "card": card,
             "buttons": buttons
         }
     }
