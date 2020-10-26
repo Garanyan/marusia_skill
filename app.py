@@ -34,15 +34,15 @@ def visa():
         "type": 'ItemsList',
         "items": [
                 {
-                    "image_id": 457239018,
-                    "title": 'картинка!'
+                    "image_id": 457239018
                 }, 
                 {
                     "image_id": 457239019
+                },
+                {
+                    "image_id": 457239017
                 }
-            ],
-        "title": "",
-        "description": ""
+            ]
         }
     elif request.json['request']['command'].lower() == 'кнопки':
         buttons = [
@@ -125,7 +125,7 @@ def visa():
                 "title": "Лихтенштейн"
             }
         ]
-    elif request.json['request']['command'] == 'Австрия':
+    elif request.json['request']['command'].lower() == 'австрия':
         text = "В Австрию нужна шенгенская виза."
     else:
         text = "не понимаю"
