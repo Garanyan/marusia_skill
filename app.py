@@ -59,7 +59,7 @@ def visa():
             "buttons": buttons
         }
     }
-    return json.dumps(response, ensure_ascii=False, intent=2)
+    return json.dumps(response, ensure_ascii=False)
 
 @app.route("/")
 def home():
