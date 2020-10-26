@@ -13,7 +13,7 @@ def marusya():
 def visa():
     card = {}
     buttons = []
-    text = "эх"
+    text = ""
     if request.json['session']['new']:
         text = "Привет это скилл Виза"
     elif request.json['request']['command'] == 'on_interrupt':
@@ -21,6 +21,7 @@ def visa():
     elif request.json['request']['command'].lower() == 'привет' or request.json['request']['original_utterance'].lower() == 'привет':
         text = "Здравствуйте."
     elif request.json['request']['command'].lower() == 'картинка':
+        text = ""
         card = {
         "type": 'BigImage',
         "image_id": 457239017,
@@ -31,7 +32,11 @@ def visa():
     elif request.json['request']['command'].lower() == 'карусель':
         card = {
         "type": 'ItemsList',
-        "items": [457239018, 457239019, 457239017],
+        "items": [
+                {"image_id": 457239018}, 
+                {"image_id": 457239019}, 
+                {"image_id": 457239017}
+            ],
         "title": "",
         "description": ""
         }
@@ -47,7 +52,8 @@ def visa():
                 "title": "3"
               }
         ]
-
+    else:
+        text = "не понимаю"
 
     response = {
         "version": request.json['version'],
