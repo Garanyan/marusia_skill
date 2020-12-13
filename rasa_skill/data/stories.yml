@@ -1,0 +1,55 @@
+version: "2.0"
+
+stories:
+
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+
+- story: sad path 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
+
+- story: sad path 2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_goodbye
+
+- story: say goodbye
+  steps:
+    - intent: goodbye
+    - action: utter_goodbye
+
+- story: schengen
+  steps:
+    - intent: is_shengen_zone
+    - action: is_schengen_zone
+
+- story: docs_path
+  steps:
+    - intent: docs_request
+    - action: action_get_docs
+
+- story: info_path
+  steps:
+    - intent: general_request
+    - action: action_info
+
+- story: info_path
+  steps:
+    - intent: without_visa
+    - action: action_without_visa

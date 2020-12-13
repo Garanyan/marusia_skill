@@ -1,0 +1,23 @@
+Бот Виза
+Имя Виза
+Общается на ты
+Аудитория - граждане России
+Возраст - 25 лет
+
+
+Армения входит в шенгенскую зону?
+action zone
+Какие документы нужны в Израиль?
+action docs
+
+Хочу поехать в египет
+action info
+
+Беларусь
+action info
+
+
+heroku container:push web
+heroku container:release web
+heroku logs --tail
+heroku ps:scale web=0

@@ -1,0 +1,57 @@
+version: "2.0"
+
+entities:
+  - country
+slots:
+  country:
+    type: text
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - documents_to_country
+  - is_shengen_zone
+  - without_visa
+  - docs_request
+  - general_request
+
+actions:
+  - is_schengen_zone
+  - action_get_docs
+  - action_info
+  - action_without_visa
+
+responses:
+  utter_greet:
+  - text: "Привет. Я могу рассказать какие доументы нужны для получения визы"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Я помогла тебе?"
+
+  utter_happy:
+  - text: "Отлично!"
+
+  utter_goodbye:
+  - text: "Пока. Возвращайся, когда поедешь в другую страну."
+
+  utter_iamabot:
+  - text: "Я бот Виза."
+
+  utter_is_shengen:
+  - text: "{country} входит в Шенгенскую зону."
+
+  utter_without_visa:
+  - text: "В {country} можно попать без визы"
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
