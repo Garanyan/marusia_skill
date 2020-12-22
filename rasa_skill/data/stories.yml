@@ -53,3 +53,10 @@ stories:
   steps:
     - intent: without_visa
     - action: action_without_visa
+
+- story: info_path_2
+  steps:
+    - intent: without_visa
+    - action: action_without_visa
+    - intent: again
+    - action: action_without_visa

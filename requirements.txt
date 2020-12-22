@@ -12,3 +12,8 @@ Flask-User==1.0.1.5
 # Automated tests
 pytest==3.0.5
 pytest-cov==2.4.0
+
+pymystem3==0.2.0
+rasa==2.1.2
+rasa-core-sdk==0.14.0
+rasa-sdk==2.1.2

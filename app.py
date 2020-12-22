@@ -102,7 +102,7 @@ def visa():
     if request.json['session']['new']:
         text = "Привет это скилл Виза"
     elif request.json['request']['command'] == 'on_interrupt':
-        text = "Пока, возвращайся, когда отправишься в другую страну."
+        text = "Пока. \nВозвращайся, когда отправишься в другую страну."
     elif request.json['request']['command'].lower() == 'привет' or request.json['request'][
         'original_utterance'].lower() == 'привет':
         text = "Здравствуйте."

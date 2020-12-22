@@ -66,7 +66,7 @@ class ActionDocs(Action):
                 break
 
         if not found:
-            dispatcher.utter_message(text=f"{country} не найдена в безе.")
+            dispatcher.utter_message(text=f"Я не знаю такую страну '{country}'")
 
         return []
 
@@ -75,6 +75,10 @@ class ActionInfo(Action):
     def __init__(self):
         self.m = Mystem()
         self.countries = json.load(open(file, "r"))
+        self.schengens = ["Австрия", "Бельгия", "Чешская Республика", "Дания", "Эстония", "Финляндия", "Франция",
+                          "Германия", "Греция", "Венгрия", "Исландия", "Италия", "Латвия", "Литва", "Люксембург",
+                          "Мальта", "Голландия", "Норвегия", "Польша", "Португалия", "Словакия", "Словения", "Испания",
+                          "Швеция", "Швейцария", "Лихтенштейн"]
 
     def name(self) -> Text:
         return "action_info"
@@ -89,16 +93,25 @@ class ActionInfo(Action):
         for i in self.countries:
             if country == i["country"]:
                 found = True
-                if not i["cost"]:
-                    dispatcher.utter_message(text=f"В {i['country']} осуществляется {i['visa']}, {i['documents']}")
+                if country in self.schengens:
+                    if 'images' in i:
+                        images_d = {"images": []}
+                        for image_id in i['images']:
+                            images_d["images"].append(image_id)
+                        dispatcher.utter_message(text=f"{country} входит в шенгенскую зону.", json_message=images_d)
+                    else:
+                        dispatcher.utter_message(text=f"{country} входит в шенгенскую зону.")
+
+                elif not i["cost"]:
+                    dispatcher.utter_message(text=f"{i['country']} осуществляет {i['visa']}. {i['documents']}")
                 else:
                     dispatcher.utter_message(
                         text=f"Для визита в {i['country']} нужна виза, {i['visa']} и стоит {i['cost']}. "
-                             f"Для въезда Находиться можно до {i['days']} дней")
+                             f"Находиться можно до {i['days']} дней")
                 break
 
         if not found:
-            dispatcher.utter_message(text=f"{country} не найдена в безе.")
+            dispatcher.utter_message(text=f"Я не знаю такую страну '{country}'")
 
         return []
 
@@ -114,9 +127,13 @@ class ActionWithoutVisa(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         countries = []
-        while len(countries) < 2:
+        buttons = []
+        while len(countries) < 3:
             random_countries = sample(self.countries, 6)
             countries = [i["country"] for i in random_countries if i["visa"] == "въезд без визы"]
-        dispatcher.utter_message(text=", ".join(countries))
+            buttons.clear()
+            for c in countries:
+                buttons.append({c: c})
+        dispatcher.utter_message(text=", ".join(countries), buttons=buttons)
 
         return []

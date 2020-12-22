@@ -30,12 +30,24 @@ def visa():
         text = "Пока. \nПриходи, когда поедешь в другую страну."
     else:
         val = request.json['request']['command']
+        print(f"Inmupt msg '{val}'")
         data = json.dumps({"sender": "Rasa", "message": val})
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         res = requests.post('http://localhost:5005/webhooks/rest/webhook', data=data, headers=headers)
         res = res.json()
         print(res)
         text = res[0]['text']
+        if 'buttons' in res[0]:
+            for c in res[0]['buttons']:
+                for k in c:
+                    buttons.append({"title": k})
+        if len(res) > 1 and "custom" in res[1]:
+            card = {
+                "type": 'ItemsList',
+                "items": []
+            }
+            for img_id in res[1]["custom"]["images"]:
+                card["items"].append({"image_id": img_id})
 
     response = {
         "version": request.json['version'],
