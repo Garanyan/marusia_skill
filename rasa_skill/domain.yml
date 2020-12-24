@@ -14,27 +14,28 @@ intents:
   - mood_great
   - mood_unhappy
   - bot_challenge
-  - documents_to_country
   - is_shengen_zone
   - without_visa
   - again
   - docs_request
   - general_request
+  - shengen_docs
+  - accept_shengen
+  - shengen_countries
+  - wrong_ans
 
 actions:
   - is_schengen_zone
   - action_get_docs
   - action_info
   - action_without_visa
+  - action_wrong_ans
 
 responses:
   utter_greet:
   - text: "Привет. Я могу рассказать какие документы нужны чтобы попасть в страну. Входит ли страна в Шенгенскую зону.
    Спроси меня: Куда можно поехать без визы? или просто скажи Италия"
 
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
 
   utter_did_that_help:
   - text: "Я помогла тебе?"
@@ -53,6 +54,21 @@ responses:
 
   utter_without_visa:
   - text: "В {country} можно попать без визы"
+
+  utter_shengen_docs:
+  - text: "Согласие на обработку персональных данных.\nАнкета. Две цветные фотографии 3,5 х 4,5 см.
+  \nКопия страницы загранпаспорта с личными данными и фотографией.
+  \nПодтверждение занятости.
+  \nФинансовая гарантия (выписка с банковского счета, 2-НДФЛ), из расчета на один день от 40 евро.
+  \nБилеты туда и обратно, отель.
+  Медицинская страховка для стран Шенгена."
+
+  utter_shengen_countries:
+  - text: "Австрия, Бельгия, Венгрия, Германия, Греция, Дания, Исландия, Испания, Италия, Латвия, Литва, Лихтенштейн, Люксембург, Мальта, Нидерланды, Норвегия, Польша, Португалия, Словакия, Словения, Финляндия, Франция, Чехия, Швейцария, Швеция, Эстония входят в шенгенскую зону"
+
+  utter_accept_shengen:
+  - text : "Албания, Болгария, Гибралтар, Кипр, Румыния и Хорватия принимают по шенгенской визе"
+
 
 session_config:
   session_expiration_time: 60

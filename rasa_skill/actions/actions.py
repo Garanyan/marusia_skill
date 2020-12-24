@@ -55,12 +55,14 @@ class ActionDocs(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        country = tracker.get_slot('country')
-        lemmas = self.m.lemmatize(country)
+        input_country = tracker.get_slot('country')
+        lemmas = self.m.lemmatize(input_country)
         country = lemmas[0].capitalize()
         found = False
         for i in self.countries:
-            if country == i["country"]:
+            if country == i["country"] or input_country == i["country"].lower():
+                if input_country == i["country"]:
+                    country = i["country"]
                 found = True
                 dispatcher.utter_message(text=f"{i['documents']}")
                 break
@@ -86,24 +88,36 @@ class ActionInfo(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        country = tracker.get_slot('country')
-        lemmas = self.m.lemmatize(country)
-        country = lemmas[0].capitalize()
+        input_country = tracker.get_slot('country')
+        lemmas = self.m.lemmatize(input_country)
+        country = "".join(lemmas).rstrip().capitalize()
         found = False
-        for i in self.countries:
-            if country == i["country"]:
+        for i in self.countries:  # шри ланка
+            if country == i["country"] or input_country == i["country"].lower() or input_country == i["country"].replace('-', ' ').lower():
+                if input_country == i["country"]:
+                    country = i["country"]
                 found = True
                 if country in self.schengens:
+                    button = [{"Документы на Шенген": "Документы на Шенген"}]
                     if 'images' in i:
                         images_d = {"images": []}
                         for image_id in i['images']:
                             images_d["images"].append(image_id)
-                        dispatcher.utter_message(text=f"{country} входит в шенгенскую зону.", json_message=images_d)
+
+                        dispatcher.utter_message(text=f"{country} входит в шенгенскую зону.", json_message=images_d,
+                                                 buttons=button)
                     else:
-                        dispatcher.utter_message(text=f"{country} входит в шенгенскую зону.")
+                        dispatcher.utter_message(text=f"{country} входит в шенгенскую зону.", buttons=button)
 
                 elif not i["cost"]:
-                    dispatcher.utter_message(text=f"{i['country']} осуществляет {i['visa']}. {i['documents']}")
+                    if i['visa'] and i['documents']:
+                        dispatcher.utter_message(text=f"{i['country']} осуществляет {i['visa']}. {i['documents']}")
+                    elif i['visa']:
+                        dispatcher.utter_message(text=f"{i['country']} осуществляет {i['visa']}")
+                    elif i['documents']:
+                        dispatcher.utter_message(text=f"{i['documents']}")
+                    else:
+                        dispatcher.utter_message(text=f"Мало данных о {i['country']}")
                 else:
                     dispatcher.utter_message(
                         text=f"Для визита в {i['country']} нужна виза, {i['visa']} и стоит {i['cost']}. "
@@ -134,6 +148,29 @@ class ActionWithoutVisa(Action):
             buttons.clear()
             for c in countries:
                 buttons.append({c: c})
-        dispatcher.utter_message(text=", ".join(countries), buttons=buttons)
+        dispatcher.utter_message(text="В " + ", ".join(countries) + " можно поехать без визы", buttons=buttons)
 
+        return []
+
+
+class ActionWrongAns(Action):
+    def __init__(self):
+        self.action_name = "action_wrong_ans"
+
+    def name(self) -> Text:
+        return self.action_name
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        buttons = [
+            {"Документы в Азербайджан": "Документы в Азербайджан"},
+            {"Армения в шенгенской зоне ?": "Армения в шенгенской зоне ?"},
+            {"Хочу поехать в Грецию": "Хочу поехать в Грецию"},
+            {"Куда можно поехать без визы?": "Куда можно поехать без визы?"},
+            {"Документы на Шенген": "Документы на Шенген"},
+            {"Список стран Шенгена": "Список стран Шенгена"}
+                  ]
+
+        dispatcher.utter_message(text="Давай попробуем еще раз", buttons=buttons)
         return []

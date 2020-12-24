@@ -14,7 +14,6 @@ stories:
   - intent: greet
   - action: utter_greet
   - intent: mood_unhappy
-  - action: utter_cheer_up
   - action: utter_did_that_help
   - intent: affirm
   - action: utter_happy
@@ -24,7 +23,6 @@ stories:
   - intent: greet
   - action: utter_greet
   - intent: mood_unhappy
-  - action: utter_cheer_up
   - action: utter_did_that_help
   - intent: deny
   - action: utter_goodbye
@@ -44,8 +42,15 @@ stories:
     - intent: docs_request
     - action: action_get_docs
 
-- story: info_path
+- story: general_path
   steps:
+    - intent: general_request
+    - action: action_info
+
+- story: general_path_2
+  steps:
+    - intent: without_visa
+    - action: action_without_visa
     - intent: general_request
     - action: action_info
 
@@ -60,3 +65,39 @@ stories:
     - action: action_without_visa
     - intent: again
     - action: action_without_visa
+
+- story: info_path_3
+  steps:
+    - intent: without_visa
+    - action: action_without_visa
+    - intent: again
+    - action: action_without_visa
+    - intent: general_request
+    - action: action_info
+
+- story: shengen_docs_path
+  steps:
+    - intent: shengen_docs
+    - action: utter_shengen_docs
+
+- story: shengen_countries_path
+  steps:
+    - intent: shengen_countries
+    - action: utter_shengen_countries
+
+- story: shengen_countries_path_2
+  steps:
+    - intent: shengen_countries
+    - action: utter_shengen_countries
+    - intent: shengen_docs
+    - action: utter_shengen_docs
+
+- story: accept_shengen_path
+  steps:
+    - intent: accept_shengen
+    - action: utter_accept_shengen
+
+- story: wrong_path
+  steps:
+    - intent: wrong_ans
+    - action: action_wrong_ans

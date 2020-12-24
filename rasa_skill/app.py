@@ -18,7 +18,7 @@ def visa():
     text = ""
     if request.json['session']['new']:
         val = "Привет."
-        data = json.dumps({"sender": "Rasa", "message": val})
+        data = json.dumps({"sender": request.json['session']['user_id'], "message": val})
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         res = requests.post('http://localhost:5005/webhooks/rest/webhook', data=data, headers=headers)
         if not res.ok:
@@ -31,7 +31,7 @@ def visa():
     else:
         val = request.json['request']['command']
         print(f"Inmupt msg '{val}'")
-        data = json.dumps({"sender": "Rasa", "message": val})
+        data = json.dumps({"sender": request.json['session']['user_id'], "message": val})
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         res = requests.post('http://localhost:5005/webhooks/rest/webhook', data=data, headers=headers)
         res = res.json()

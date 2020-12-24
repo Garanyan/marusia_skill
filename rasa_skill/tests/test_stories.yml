@@ -2,6 +2,21 @@
 #### If you want to learn more, please see the docs: https://rasa.com/docs/rasa/testing-your-assistant
 
 stories:
+- story: test path 1
+  steps:
+  - user: |
+      Привет
+    intent: greet
+  - action: utter_greet
+  - user: |
+      страный шенгенской зоны
+    intent: shengen_countries
+  - action: utter_shengen_countries
+  - user: |
+      Италия
+    intent: general_request
+  - action: action_info
+
 - story: happy path 1
   steps:
   - user: |
@@ -37,7 +52,6 @@ stories:
   - user: |
       not good
     intent: mood_unhappy
-  - action: utter_cheer_up
   - action: utter_did_that_help
   - user: |
       yes
@@ -53,7 +67,6 @@ stories:
   - user: |
       not good
     intent: mood_unhappy
-  - action: utter_cheer_up
   - action: utter_did_that_help
   - user: |
       not really
@@ -69,7 +82,6 @@ stories:
   - user: |
       very terrible
     intent: mood_unhappy
-  - action: utter_cheer_up
   - action: utter_did_that_help
   - user: |
       no
